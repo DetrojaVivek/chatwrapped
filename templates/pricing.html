@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Pricing - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="text-center mb-5">
+        <h1 class="display-4 fw-bold">Simple, Transparent Pricing</h1>
+        <p class="lead text-muted">Choose the plan that suits your needs.</p>
+    </div>
+
+    <div class="row row-cols-1 row-cols-md-2 mb-3 text-center justify-content-center">
+        <!-- FREE PLAN -->
+        <div class="col-md-5">
+            <div class="card mb-4 rounded-3 shadow-sm border-secondary">
+                <div class="card-header py-3 bg-white border-bottom-0">
+                    <h4 class="my-0 fw-normal">Free</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">₹0<small class="text-muted fw-light">/forever</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start mx-auto" style="max-width: 300px;">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Basic Chat Analysis</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>1 Default Template</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Instagram Post Size</li>
+                        <li class="mb-2 text-muted"><i class="bi bi-x-circle-fill me-2"></i>Watermark on Images</li>
+                        <li class="mb-2 text-muted"><i class="bi bi-x-circle-fill me-2"></i>No Analysis History</li>
+                        <li class="mb-2 text-muted"><i class="bi bi-x-circle-fill me-2"></i>1 Download Limit</li>
+                    </ul>
+                    <a href="{{ url_for('upload.upload_file') }}" class="w-100 btn btn-lg btn-outline-secondary">Free Mein Try Karo</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- PREMIUM PLAN -->
+        <div class="col-md-5">
+            <div class="card mb-4 rounded-3 shadow-lg border-success position-relative">
+                <div class="position-absolute top-0 start-50 translate-middle badge rounded-pill bg-success px-3 py-2">
+                    MOST POPULAR
+                </div>
+                <div class="card-header py-3 bg-success text-white border-success">
+                    <h4 class="my-0 fw-normal">Premium</h4>
+                </div>
+                <div class="card-body">
+                    <h1 class="card-title pricing-card-title">₹49<small class="text-muted fw-light">/one-time</small></h1>
+                    <ul class="list-unstyled mt-3 mb-4 text-start mx-auto" style="max-width: 300px;">
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>All 4 Premium Templates</strong></li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>All Platform Sizes</strong> (Story, Reel, etc.)</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i><strong>No Watermark</strong> via Removed</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Save Analysis History</li>
+                        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i>Unlimited Re-downloads</li>
+                    </ul>
+                    <a href="{{ url_for('payment.upgrade') }}" class="w-100 btn btn-lg btn-success">₹49 Mein Upgrade Karo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

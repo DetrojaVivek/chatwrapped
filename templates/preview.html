@@ -1,0 +1,215 @@
+{% extends 'base.html' %}
+
+{% block title %}Preview Your Wrapped - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <!-- Carousel Section -->
+    <div class="col-md-8 col-lg-6 mb-4">
+        <div class="position-relative text-center mx-auto" style="max-width: 500px;">
+            <!-- Main Image -->
+            <div class="card border-0 shadow-lg overflow-hidden rounded-4">
+                <img id="preview-image" src="" class="img-fluid w-100" alt="Wrapped Slide">
+            </div>
+
+            <!-- Navigation Buttons -->
+            <button id="prev"
+                class="btn btn-dark position-absolute top-50 start-0 translate-middle-y ms-2 rounded-circle shadow"
+                style="opacity: 0.8; z-index: 10;">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="next"
+                class="btn btn-dark position-absolute top-50 end-0 translate-middle-y me-2 rounded-circle shadow"
+                style="opacity: 0.8; z-index: 10;">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+
+            <!-- Counter -->
+            <div class="mt-2 text-muted fw-bold">
+                <span id="slide-counter">1 / 6</span>
+            </div>
+
+            <!-- Dots -->
+            <div class="d-flex justify-content-center mt-2 gap-2" id="dots-container">
+                <!-- Dots injected by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Free User Banner -->
+    {% if not is_premium %}
+    <div class="col-md-8 col-lg-6 mb-4">
+        <div class="alert alert-warning border-0 shadow-sm d-flex align-items-center justify-content-between p-3 rounded-4"
+            role="alert">
+            <div>
+                <i class="fas fa-crown text-warning me-2 fs-5"></i>
+                <strong>Watermark remove karne ke liye Rs 49 mein upgrade karo</strong>
+            </div>
+            <a href="{{ url_for('payment.pay') }}"
+                class="btn btn-warning fw-bold text-dark btn-sm px-3 rounded-pill shadow-sm">
+                Upgrade Karo
+            </a>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Download Section -->
+    <div class="col-md-10 mb-5">
+        <div class="text-center mb-4">
+            <h4 class="fw-bold">Download Karo <i class="fas fa-download text-success ms-2"></i></h4>
+            <p class="text-muted small">Select platform to resize image automatically. {% if not is_premium %}(Free
+                users: watermark rahega){% endif %}</p>
+        </div>
+
+        <div class="row g-3 justify-content-center">
+            <!-- Instagram Post -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{{ url_for('image_gen.download_image', image_set_id=image_set_id, platform='instagram_post') }}"
+                    class="btn btn-outline-dark w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <i class="fab fa-instagram fs-3"></i>
+                    <span class="small fw-bold">Post</span>
+                    <span class="text-muted extra-small">1080x1080</span>
+                </a>
+            </div>
+
+            <!-- Instagram Story -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{{ url_for('image_gen.download_image', image_set_id=image_set_id, platform='instagram_story') }}"
+                    class="btn btn-outline-danger w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <i class="fab fa-instagram fs-3"></i>
+                    <span class="small fw-bold">Story</span>
+                    <span class="text-muted extra-small">1080x1920</span>
+                </a>
+            </div>
+
+            <!-- Facebook -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{{ url_for('image_gen.download_image', image_set_id=image_set_id, platform='facebook') }}"
+                    class="btn btn-outline-primary w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <i class="fab fa-facebook fs-3"></i>
+                    <span class="small fw-bold">Post</span>
+                    <span class="text-muted extra-small">1200x630</span>
+                </a>
+            </div>
+
+            <!-- WhatsApp Status -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{{ url_for('image_gen.download_image', image_set_id=image_set_id, platform='whatsapp_status') }}"
+                    class="btn btn-outline-success w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <i class="fab fa-whatsapp fs-3"></i>
+                    <span class="small fw-bold">Status</span>
+                    <span class="text-muted extra-small">1080x1920</span>
+                </a>
+            </div>
+
+            <!-- Twitter -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <a href="{{ url_for('image_gen.download_image', image_set_id=image_set_id, platform='twitter') }}"
+                    class="btn btn-outline-info w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2">
+                    <i class="fab fa-twitter fs-3"></i>
+                    <span class="small fw-bold">Twitter</span>
+                    <span class="text-muted extra-small">1200x675</span>
+                </a>
+            </div>
+
+            <!-- ZIP (Future) -->
+            <div class="col-6 col-md-4 col-lg-2">
+                <button
+                    class="btn btn-secondary w-100 h-100 py-3 rounded-4 d-flex flex-column align-items-center justify-content-center gap-2"
+                    disabled>
+                    <i class="fas fa-file-archive fs-3"></i>
+                    <span class="small fw-bold">All (ZIP)</span>
+                    <span class="text-muted extra-small">Coming Soon</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Share Section -->
+    <div class="col-md-8 text-center mb-5">
+        <h5 class="fw-bold mb-3">Share with Friends</h5>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="https://wa.me/?text=Check%20out%20my%20WhatsApp%20Chat%20Wrapped!%20Create%20yours%20at%20https://chatwrapped.in"
+                target="_blank" class="btn btn-success rounded-pill px-4 shadow-sm">
+                <i class="fab fa-whatsapp me-2"></i> Share on WhatsApp
+            </a>
+            <button onclick="copyLink()" class="btn btn-light border rounded-pill px-4 shadow-sm">
+                <i class="fas fa-link me-2"></i> Copy Link
+            </button>
+        </div>
+
+        <div class="mt-4">
+            <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-link text-muted text-decoration-none">
+                <i class="fas fa-redo me-1"></i> Analyze Another Chat
+            </a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .extra-small {
+        font-size: 0.7rem;
+    }
+
+    .dot {
+        height: 10px;
+        width: 10px;
+        background-color: #ddd;
+        border-radius: 50%;
+        display: inline-block;
+        transition: background-color 0.3s;
+        cursor: pointer;
+    }
+
+    .dot.active {
+        background-color: var(--primary);
+        /* Bootstrap success green or custom var */
+        transform: scale(1.2);
+    }
+</style>
+
+<script>
+    const images = {{ image_urls | tojson }};
+    let current = 0;
+    const imgElement = document.getElementById('preview-image');
+    const counterElement = document.getElementById('slide-counter');
+    const dotsContainer = document.getElementById('dots-container');
+
+    // Create dots
+    images.forEach((_, idx) => {
+        const dot = document.createElement('span');
+        dot.classList.add('dot');
+        dot.onclick = () => showSlide(idx);
+        dotsContainer.appendChild(dot);
+    });
+
+    function showSlide(n) {
+        if (n >= images.length) current = 0;
+        else if (n < 0) current = images.length - 1;
+        else current = n;
+
+        imgElement.src = images[current];
+        counterElement.textContent = (current + 1) + ' / ' + images.length;
+
+        // Update dots
+        const dots = document.getElementsByClassName('dot');
+        for (let i = 0; i < dots.length; i++) {
+            dots[i].classList.remove('active');
+        }
+        dots[current].classList.add('active');
+    }
+
+    document.getElementById('prev').onclick = () => showSlide(current - 1);
+    document.getElementById('next').onclick = () => showSlide(current + 1);
+
+    // Initial show
+    if (images.length > 0) {
+        showSlide(0);
+    }
+
+    function copyLink() {
+        navigator.clipboard.writeText('https://chatwrapped.in');
+        alert('Link copied to clipboard!');
+    }
+</script>
+{% endblock %}

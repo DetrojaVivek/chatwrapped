@@ -1,0 +1,90 @@
+{% extends "base.html" %}
+
+{% block title %}My Analyses - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 class="fw-bold mb-0">My Analyses</h2>
+        <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+
+    {% if analyses.items %}
+    <div class="card border-0 shadow-sm rounded-4 overflow-hidden">
+        <div class="table-responsive">
+            <table class="table table-hover mb-0 align-middle">
+                <thead class="bg-light">
+                    <tr>
+                        <th class="py-3 px-4">#</th>
+                        <th class="py-3 px-4">Chat Name</th>
+                        <th class="py-3 px-4">Date</th>
+                        <th class="py-3 px-4 text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for analysis in analyses.items %}
+                    <tr>
+                        <td class="px-4 text-muted">{{ loop.index + ((analyses.page - 1) * analyses.per_page) }}</td>
+                        <td class="px-4 fw-bold text-truncate" style="max-width: 250px;">
+                            {{ analysis.chat_name }}
+                        </td>
+                        <td class="px-4 text-muted">
+                            {{ analysis.created_at.strftime('%d %b %Y, %I:%M %p') }}
+                        </td>
+                        <td class="px-4 text-end">
+                            <div class="btn-group">
+                                <a href="{{ url_for('analysis.show_results', analysis_id=analysis.id) }}"
+                                    class="btn btn-sm btn-outline-primary">
+                                    <i class="bi bi-bar-chart-line-fill me-1"></i> Results Dekho
+                                </a>
+                                <a href="{{ url_for('image_gen.select_template', analysis_id=analysis.id) }}"
+                                    class="btn btn-sm btn-outline-dark">
+                                    <i class="bi bi-images me-1"></i> Images Banao
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    {% if analyses.pages > 1 %}
+    <nav class="mt-4">
+        <ul class="pagination justify-content-center">
+            <li class="page-item {% if not analyses.has_prev %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('dashboard.analyses', page=analyses.prev_num) }}"
+                    tabindex="-1">Previous</a>
+            </li>
+            {% for page_num in analyses.iter_pages() %}
+            {% if page_num %}
+            <li class="page-item {% if page_num == analyses.page %}active{% endif %}">
+                <a class="page-link" href="{{ url_for('dashboard.analyses', page=page_num) }}">{{ page_num }}</a>
+            </li>
+            {% else %}
+            <li class="page-item disabled"><span class="page-link">...</span></li>
+            {% endif %}
+            {% endfor %}
+            <li class="page-item {% if not analyses.has_next %}disabled{% endif %}">
+                <a class="page-link" href="{{ url_for('dashboard.analyses', page=analyses.next_num) }}">Next</a>
+            </li>
+        </ul>
+    </nav>
+    {% endif %}
+
+    {% else %}
+    <div class="text-center py-5 rounded-4 bg-light border border-dashed">
+        <i class="bi bi-chat-square-text display-4 text-muted mb-3 d-block"></i>
+        <h4 class="text-muted">Koi analyses nahi mile</h4>
+        <p class="text-muted mb-4">Start by analyzing your first chat!</p>
+        <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-primary px-4 py-2">
+            Upload Chat
+        </a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

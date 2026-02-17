@@ -1,0 +1,147 @@
+{% extends 'base.html' %}
+
+{% block title %}Choose Template - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 text-center mb-5">
+        <h2 class="fw-bold">Choose a Style</h2>
+        <p class="text-muted">Select a theme for your chat report cards.</p>
+    </div>
+
+    <div class="col-md-12">
+        <form action="{{ url_for('image_gen.generate_images') }}" method="POST" id="generate-form">
+            <!-- Hidden inputs -->
+            <input type="hidden" name="analysis_id" value="{{ request.args.get('analysis_id') }}">
+            <input type="hidden" name="template" id="selected-template" value="">
+
+            <div class="row g-4 justify-content-center">
+
+                <!-- Dark Theme -->
+                <div class="col-md-3">
+                    <div class="template-card card text-white border-0 shadow h-100" data-value="dark">
+                        <div
+                            class="card-body d-flex flex-column align-items-center justify-content-center py-5 bg-dark rounded">
+                            <i class="fas fa-moon fa-3x mb-3 text-success"></i>
+                            <h5 class="fw-bold">Dark Mode</h5>
+                            <p class="small text-white-50">Sleek & Modern</p>
+                            <!-- Mock preview -->
+                            <div class="mt-3 p-2 rounded"
+                                style="background: #1a1a2e; width: 80%; height: 60px; border: 1px solid #333;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Light Theme -->
+                <div class="col-md-3">
+                    <div class="template-card card text-dark border-0 shadow h-100" data-value="light">
+                        <div
+                            class="card-body d-flex flex-column align-items-center justify-content-center py-5 bg-white rounded border">
+                            <i class="fas fa-sun fa-3x mb-3 text-warning"></i>
+                            <h5 class="fw-bold">Light Mode</h5>
+                            <p class="small text-muted">Clean & Minimal</p>
+                            <!-- Mock preview -->
+                            <div class="mt-3 p-2 rounded"
+                                style="background: #FFFFFF; width: 80%; height: 60px; border: 1px solid #ddd;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Colorful Theme -->
+                <div class="col-md-3">
+                    <div class="template-card card text-white border-0 shadow h-100" data-value="colorful">
+                        <div class="card-body d-flex flex-column align-items-center justify-content-center py-5 rounded"
+                            style="background: linear-gradient(135deg, #6C3483, #F39C12);">
+                            <i class="fas fa-palette fa-3x mb-3"></i>
+                            <h5 class="fw-bold">Colorful</h5>
+                            <p class="small text-white-50">Vibrant & Fun</p>
+                            <!-- Mock preview -->
+                            <div class="mt-3 p-2 rounded"
+                                style="background: #6C3483; width: 80%; height: 60px; border: 1px solid #F39C12;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Minimal Theme -->
+                <div class="col-md-3">
+                    <div class="template-card card text-dark border-0 shadow h-100" data-value="minimal">
+                        <div
+                            class="card-body d-flex flex-column align-items-center justify-content-center py-5 bg-light rounded border">
+                            <i class="fas fa-feather-alt fa-3x mb-3 text-info"></i>
+                            <h5 class="fw-bold">Minimal</h5>
+                            <p class="small text-muted">Simple & Elegant</p>
+                            <!-- Mock preview -->
+                            <div class="mt-3 p-2 rounded"
+                                style="background: #F8F9FA; width: 80%; height: 60px; border: 1px solid #ccc;"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5">
+                <button type="submit" id="generate-btn" class="btn btn-primary-custom btn-lg px-5 py-3 shadow-lg"
+                    disabled>
+                    Generate Karo! <i class="fas fa-magic ms-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div id="loading-overlay"
+    class="position-fixed top-0 start-0 w-100 h-100 bg-white d-none flex-column align-items-center justify-content-center"
+    style="z-index: 1050; opacity: 0.9;">
+    <div class="spinner-border text-success" style="width: 3rem; height: 3rem;" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <h4 class="mt-3 fw-bold">Generating Amazing Images...</h4>
+    <p class="text-muted">Bas kuch seconds aur!</p>
+</div>
+
+<style>
+    .template-card {
+        cursor: pointer;
+        transition: all 0.2s;
+        border: 3px solid transparent !important;
+    }
+
+    .template-card:hover {
+        transform: translateY(-5px);
+    }
+
+    .template-card.selected {
+        border-color: var(--primary) !important;
+        transform: scale(1.02);
+    }
+</style>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const cards = document.querySelectorAll('.template-card');
+        const input = document.getElementById('selected-template');
+        const btn = document.getElementById('generate-btn');
+        const form = document.getElementById('generate-form');
+        const loading = document.getElementById('loading-overlay');
+
+        cards.forEach(card => {
+            card.addEventListener('click', function () {
+                // Remove from all
+                cards.forEach(c => c.classList.remove('selected'));
+                // Add to clicked
+                this.classList.add('selected');
+                // Store value
+                input.value = this.dataset.value;
+                // Enable button
+                btn.disabled = false;
+            });
+        });
+
+        form.addEventListener('submit', function () {
+            loading.classList.remove('d-none');
+            loading.classList.add('d-flex');
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,232 @@
+{% extends 'base.html' %}
+
+{% block title %}ChatWrapped - WhatsApp Chat Ka Report Card{% endblock %}
+
+{% block content %}
+<!-- Font Awesome for Icons -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Hero Section -->
+<section class="hero-section rounded-3 mb-5 position-relative overflow-hidden">
+    <!-- Decorative background elements -->
+    <div class="position-absolute top-0 start-0 w-100 h-100"
+        style="background: radial-gradient(circle at 10% 20%, rgba(37, 211, 102, 0.1) 0%, transparent 20%), radial-gradient(circle at 90% 80%, rgba(37, 211, 102, 0.1) 0%, transparent 20%); pointer-events: none;">
+    </div>
+
+    <div class="container position-relative z-1">
+        <h1 class="hero-title animate-fade-in">Apni WhatsApp Chat Ka <span class="text-success">Report Card</span> Banao
+        </h1>
+        <p class="lead mb-4 text-white-50" style="max-width: 700px; margin: 0 auto;">
+            Sirf 30 seconds mein jaano - kaun zyada texts karta hai,
+            kaunsa emoji sabse zyada use hua, aur bahut kuch!
+        </p>
+        <div class="d-flex justify-content-center gap-3 flex-wrap">
+            <a href="{{ url_for('upload.upload_file') }}" class="btn btn-primary-custom btn-lg px-5 py-3 shadow-lg">
+                <i class="fas fa-magic me-2"></i> Abhi Try Karo - Free Hai!
+            </a>
+        </div>
+
+        <div class="mt-4 text-white-50 small">
+            <i class="fas fa-shield-alt me-1 text-success"></i> Koi signup nahi chahiye
+            <span class="mx-2">|</span>
+            <i class="fas fa-user-secret me-1 text-success"></i> Data store nahi hota
+            <span class="mx-2">|</span>
+            <i class="fas fa-check-circle me-1 text-success"></i> 100% Free
+        </div>
+    </div>
+</section>
+
+<!-- Mock Stats Preview -->
+<div class="row g-4 mb-5 justify-content-center">
+    <!-- Card 1 -->
+    <div class="col-md-4 col-lg-3">
+        <div class="results-card h-100 text-center border-0 bg-white">
+            <div class="mb-3">
+                <i class="fab fa-whatsapp text-success fa-3x"></i>
+            </div>
+            <div class="stat-number">2,847</div>
+            <div class="stat-label">Total Messages</div>
+        </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="col-md-4 col-lg-3">
+        <div class="results-card h-100 text-center border-0 bg-white">
+            <div class="mb-3">
+                <span style="font-size: 3rem;">😂</span>
+            </div>
+            <div class="stat-number">Top Emoji</div>
+            <div class="stat-label">Most Used</div>
+        </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="col-md-4 col-lg-3">
+        <div class="results-card h-100 text-center border-0 bg-white">
+            <div class="mb-3">
+                <i class="fas fa-moon text-primary fa-3x"></i>
+            </div>
+            <div class="stat-number">11 PM</div>
+            <div class="stat-label">Peak Time</div>
+        </div>
+    </div>
+</div>
+
+<!-- How It Works Section -->
+<section class="py-5 bg-light rounded-3 mb-5 px-4">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold mb-3">Kaise Kaam Karta Hai?</h2>
+        <p class="text-muted">Bas 3 simple steps mein apni report paao</p>
+    </div>
+
+    <div class="steps-container">
+        <!-- Step 1 -->
+        <div class="step-card">
+            <div class="step-number">1</div>
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3 text-secondary">
+                        <i class="fas fa-file-export fa-2x"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Export Chat</h5>
+                    <p class="card-text text-muted small">
+                        WhatsApp -> Chat open karo -> Three dots -> More -> Export Chat -> Without Media
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="step-card">
+            <div class="step-number">2</div>
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3 text-secondary">
+                        <i class="fas fa-cloud-upload-alt fa-2x"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Upload File</h5>
+                    <p class="card-text text-muted small">
+                        Export kiya hua .txt file yahan drag & drop karo.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="step-card">
+            <div class="step-number">3</div>
+            <div class="card border-0 shadow-sm h-100">
+                <div class="card-body p-4">
+                    <div class="mb-3 text-secondary">
+                        <i class="fas fa-images fa-2x"></i>
+                    </div>
+                    <h5 class="card-title fw-bold">Download Images</h5>
+                    <p class="card-text text-muted small">
+                        Apni detailed report images download karo aur Instagram pe share karo!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Grid -->
+<section class="mb-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Kya Kya Milega?</h2>
+    </div>
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fas fa-comments text-primary fa-2x mb-3"></i>
+                <h5 class="fw-bold">Who Texts More</h5>
+                <p class="text-muted small">Dekho kaun zyada enthusiastic hai conversation mein.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fas fa-clock text-warning fa-2x mb-3"></i>
+                <h5 class="fw-bold">Peak Hours</h5>
+                <p class="text-muted small">Tumhari chatting ka sabse active time kaunsa hai.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fas fa-smile text-success fa-2x mb-3"></i>
+                <h5 class="fw-bold">Emoji Report</h5>
+                <p class="text-muted small">Kaunsa emoji tum dono ka favourite hai.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fas fa-chart-line text-info fa-2x mb-3"></i>
+                <h5 class="fw-bold">Fun Facts</h5>
+                <p class="text-muted small">Messages count, word count, aur bhi bahut kuch.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fab fa-instagram text-danger fa-2x mb-3"></i>
+                <h5 class="fw-bold">Instagram Ready</h5>
+                <p class="text-muted small">Images aise format mein milti hain jo story ke liye perfect hain.</p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="feature-card text-center">
+                <i class="fas fa-lock text-secondary fa-2x mb-3"></i>
+                <h5 class="fw-bold">Privacy Safe</h5>
+                <p class="text-muted small">Analysis ke baad tumhari chat turant delete ho jaati hai.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pricing Section -->
+<section class="mb-5 py-5">
+    <div class="text-center mb-5">
+        <h2 class="fw-bold">Pricing</h2>
+        <p class="text-muted">Simple aur transparent</p>
+    </div>
+    <div class="row justify-content-center g-4">
+        <div class="col-md-5 col-lg-4">
+            <div class="pricing-card h-100">
+                <span class="free-badge mb-3 d-inline-block">Basic</span>
+                <h3 class="fw-bold mb-0">Free</h3>
+                <p class="text-muted mb-4">Forever</p>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> basic Insights</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> 6 Standard Slides</li>
+                    <li class="mb-2 text-muted"><i class="fas fa-times me-2"></i> Watermarked Images</li>
+                </ul>
+                <a href="{{ url_for('upload.upload_file') }}" class="btn btn-outline-custom w-100">Get Started</a>
+            </div>
+        </div>
+        <div class="col-md-5 col-lg-4">
+            <div class="pricing-card popular h-100">
+                <span class="premium-badge mb-3 d-inline-block">Premium</span>
+                <h3 class="fw-bold mb-0">₹49</h3>
+                <p class="text-muted mb-4">One Time</p>
+                <ul class="list-unstyled text-start mb-4">
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Detailed Insights</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> All Premium Themes</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> No Watermark</li>
+                    <li class="mb-2"><i class="fas fa-check text-success me-2"></i> Priority Support</li>
+                </ul>
+                <a href="{{ url_for('upload.upload_file') }}" class="btn btn-primary-custom w-100">Go Premium</a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Privacy Reassurance Banner -->
+<div
+    class="alert alert-secondary d-flex align-items-center justify-content-center py-4 mb-0 border-0 rounded-3 shadow-sm bg-light">
+    <i class="fas fa-lock fa-2x text-muted me-3"></i>
+    <div>
+        <h5 class="mb-1 fw-bold text-dark">Your Privacy is Our Priority</h5>
+        <p class="mb-0 text-muted small">Tumhari chat hum store nahi karte. Upload hone ke baad turant delete ho jaati
+            hai.</p>
+    </div>
+</div>
+
+{% endblock %}

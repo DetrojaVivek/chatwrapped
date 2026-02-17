@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Payment Successful - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5 text-center">
+    <div class="mb-4">
+        <div class="d-inline-flex align-items-center justify-content-center rounded-circle bg-success text-white"
+            style="width: 100px; height: 100px;">
+            <i class="bi bi-check-lg display-3"></i>
+        </div>
+    </div>
+    <h1 class="fw-bold text-success mb-3">Payment Successful!</h1>
+    <p class="lead mb-5">
+        Congratulations! Aapka premium unlock ho gaya hai.<br>
+        Ab aap saare features, templates aur unlimited downloads enjoy kar sakte hain.
+    </p>
+    <a href="{{ url_for('upload.upload_file') }}" class="btn btn-primary btn-lg px-5 shadow-sm">
+        <i class="bi bi-chat-dots-fill me-2"></i> Apni Chat Analyze Karo
+    </a>
+</div>
+{% endblock %}

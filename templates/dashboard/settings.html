@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Settings - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="fw-bold mb-0">Settings</h2>
+                <a href="{{ url_for('dashboard.index') }}" class="btn btn-outline-secondary btn-sm">
+                    <i class="bi bi-arrow-left me-1"></i> Back
+                </a>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Profile Settings</h5>
+                </div>
+                <div class="card-body p-4">
+                    <form method="POST" action="{{ url_for('dashboard.settings') }}">
+                        <input type="hidden" name="action" value="update_profile">
+                        <div class="mb-3">
+                            <label class="form-label">Full Name</label>
+                            <input type="text" name="name" class="form-control" value="{{ current_user.name }}" required
+                                maxlength="100">
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Update Profile</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Account Info -->
+            <div class="card border-0 shadow-sm rounded-4 mb-4">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">Account Info</h5>
+                </div>
+                <div class="card-body p-4">
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Email Address</div>
+                        <div class="col-sm-8 fw-medium">{{ current_user.email }}</div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col-sm-4 text-muted">Current Plan</div>
+                        <div class="col-sm-8">
+                            {% if current_user.is_premium %}
+                            <span class="badge bg-success">Premium</span>
+                            {% else %}
+                            <span class="badge bg-secondary">Free</span>
+                            <a href="{{ url_for('payment.upgrade') }}"
+                                class="small ms-2 text-decoration-none">Upgrade</a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-sm-4 text-muted">Member Since</div>
+                        <div class="col-sm-8">{{ current_user.created_at.strftime('%d %B, %Y') }}</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Danger Zone -->
+            <div class="card border-danger shadow-sm rounded-4">
+                <div class="card-header bg-danger text-white py-3">
+                    <h5 class="mb-0 fw-bold"><i class="bi bi-exclamation-triangle-fill me-2"></i>Danger Zone</h5>
+                </div>
+                <div class="card-body p-4">
+                    <p class="text-danger fw-bold">Delete Account</p>
+                    <p class="text-muted small">
+                        Deleting your account is permanent. All your data, analyses, and saved chats will be wiped out
+                        immediately.
+                        You cannot undo this action.
+                    </p>
+
+                    <form method="POST" action="{{ url_for('dashboard.delete_account') }}"
+                        onsubmit="return confirm('Are you sure you want to delete your account? This cannot be undone.');">
+                        <div class="mb-3">
+                            <label class="form-label text-muted small">Type <strong>DELETE</strong> to confirm</label>
+                            <input type="text" name="confirm_text" class="form-control" placeholder="DELETE" required>
+                        </div>
+                        <button type="submit" class="btn btn-outline-danger w-100">
+                            Delete My Account
+                        </button>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

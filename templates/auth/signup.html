@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block title %}Create Account - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-6 col-lg-5">
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-md-5">
+                <h3 class="fw-bold text-center mb-4">Account Banao</h3>
+                <form method="POST" id="signupForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="Tumhara Naam"
+                            required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email address</label>
+                        <input type="email" class="form-control" id="email" name="email" required>
+                        <div id="emailHelp" class="form-text text-danger d-none">Invalid email format</div>
+                    </div>
+
+                    <div class="mb-3 position-relative">
+                        <label for="password" class="form-label">Password</label>
+                        <div class="input-group">
+                            <input type="password" class="form-control" id="password" name="password" minlength="8"
+                                required>
+                            <button class="btn btn-outline-secondary" type="button" id="togglePassword">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div id="passwordHelp" class="form-text text-danger d-none">Password must be at least 8
+                            characters</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">Confirm Password</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password"
+                            required>
+                        <div id="matchHelp" class="form-text text-danger d-none">Passwords do not match</div>
+                    </div>
+
+                    <div class="mb-4 form-check">
+                        <input type="checkbox" class="form-check-input" id="terms" name="terms" required>
+                        <label class="form-check-label small" for="terms">Main Terms of Service se agree karta/karti
+                            hoon</label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary-custom w-100 py-2">Account Banao</button>
+
+                    <div class="text-center mt-3">
+                        <small>Pehle se account hai? <a href="{{ url_for('auth.login') }}">Login karo</a></small>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('signupForm');
+        const email = document.getElementById('email');
+        const password = document.getElementById('password');
+        const confirm = document.getElementById('confirm_password');
+        const toggleBtn = document.getElementById('togglePassword');
+
+        // Toggle Password Visibility
+        toggleBtn.addEventListener('click', function () {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            this.querySelector('i').classList.toggle('fa-eye');
+            this.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // Validation on Submit
+        form.addEventListener('submit', function (e) {
+            let valid = true;
+
+            // Email Validation (simple regex)
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email.value)) {
+                email.classList.add('is-invalid');
+                document.getElementById('emailHelp').classList.remove('d-none');
+                valid = false;
+            } else {
+                email.classList.remove('is-invalid');
+                document.getElementById('emailHelp').classList.add('d-none');
+            }
+
+            // Password Length
+            if (password.value.length < 8) {
+                password.classList.add('is-invalid');
+                document.getElementById('passwordHelp').classList.remove('d-none');
+                valid = false;
+            } else {
+                password.classList.remove('is-invalid');
+                document.getElementById('passwordHelp').classList.add('d-none');
+            }
+
+            // Password Match
+            if (password.value !== confirm.value) {
+                confirm.classList.add('is-invalid');
+                document.getElementById('matchHelp').classList.remove('d-none');
+                valid = false;
+            } else {
+                confirm.classList.remove('is-invalid');
+                document.getElementById('matchHelp').classList.add('d-none');
+            }
+
+            if (!valid) e.preventDefault();
+        });
+    });
+</script>

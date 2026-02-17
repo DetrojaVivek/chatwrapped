@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Refund Policy - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <h1 class="fw-bold mb-4">Refund Policy</h1>
+
+            <div class="card border-0 shadow-sm rounded-4 p-5">
+                <div class="mb-4">
+                    <i class="bi bi-wallet2 text-success display-1"></i>
+                </div>
+
+                <h3 class="fw-bold mb-3">100% Satisfaction Guarantee</h3>
+                <p class="lead text-muted mb-4">
+                    We want you to love ChatWrapped. If you are not satisfied with the Premium Upgrade for any reason,
+                    we offer a full refund.
+                </p>
+
+                <div class="text-start bg-light p-4 rounded-3 mb-4">
+                    <h5 class="fw-bold mb-3">Refund Terms</h5>
+                    <ul class="mb-0">
+                        <li class="mb-2">The Premium cost is a one-time payment of <strong>₹49</strong>.</li>
+                        <li class="mb-2">You can request a full refund within <strong>24 hours</strong> of purchase.
+                        </li>
+                        <li class="mb-2">Refunds will be processed back to your original payment method via Razorpay
+                            within 5-7 business days.</li>
+                    </ul>
+                </div>
+
+                <p class="mb-3">To request a refund, please email us at:</p>
+                <a href="mailto:support@chatwrapped.in" class="btn btn-primary btn-lg px-4">
+                    <i class="bi bi-envelope-fill me-2"></i> support@chatwrapped.in
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

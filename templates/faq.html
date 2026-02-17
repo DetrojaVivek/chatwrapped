@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% block title %}FAQ - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <h1 class="fw-bold text-center mb-5">Frequently Asked Questions</h1>
+
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="accordion shadow-sm" id="accordionFAQ">
+                <!-- item 1 -->
+                <div class="accordion-item rounded-4 mb-3 border-0 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button fw-bold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseOne">
+                            Is my data safe?
+                        </button>
+                    </h2>
+                    <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionFAQ">
+                        <div class="accordion-body text-muted">
+                            Absolutely. We prioritize your privacy. We <strong>never</strong> store your chat messages.
+                            Your file is processed in memory to generate the stats and then instantly deleted.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- item 2 -->
+                <div class="accordion-item rounded-4 mb-3 border-0 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseTwo">
+                            How do I export my WhatsApp chat?
+                        </button>
+                    </h2>
+                    <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+                        <div class="accordion-body text-muted">
+                            Open the chat > Tap on Contact Name/Three dots > More > Export Chat > <strong>Without
+                                Media</strong>.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- item 3 -->
+                <div class="accordion-item rounded-4 mb-3 border-0 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseThree">
+                            What do I get in Premium?
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+                        <div class="accordion-body text-muted">
+                            The Premium upgrade (₹49 one-time) unlocks all 4 template designs, removes watermarks,
+                            allows saving your analysis history, and enables downloading images for all platforms
+                            (Instagram Story, Post, etc.).
+                        </div>
+                    </div>
+                </div>
+
+                <!-- item 4 -->
+                <div class="accordion-item rounded-4 mb-3 border-0 overflow-hidden">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed fw-bold" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#collapseFour">
+                            Can I get a refund?
+                        </button>
+                    </h2>
+                    <div id="collapseFour" class="accordion-collapse collapse" data-bs-parent="#accordionFAQ">
+                        <div class="accordion-body text-muted">
+                            Yes! If you are not satisfied, you can request a full refund within 24 hours of purchase by
+                            emailing us at support@chatwrapped.in.
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

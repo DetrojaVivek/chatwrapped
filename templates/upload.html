@@ -1,0 +1,221 @@
+{% extends 'base.html' %}
+
+{% block title %}Chat Upload Karo - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-8 col-lg-6">
+        <div class="text-center mb-5">
+            <h2 class="fw-bold mb-3">Chat Upload Karo</h2>
+            <p class="text-muted">Apni WhatsApp chat export file (.txt) yahaan upload karo.</p>
+        </div>
+
+        <div class="card border-0 shadow-sm rounded-4">
+            <div class="card-body p-4 p-md-5">
+
+                <form id="upload-form" action="{{ url_for('upload.upload_file') }}" method="POST"
+                    enctype="multipart/form-data">
+
+                    <!-- Drag and Drop Zone -->
+                    <div id="upload-zone" class="upload-zone mb-4 position-relative">
+                        <div class="py-4">
+                            <i class="fas fa-cloud-upload-alt text-success fa-3x mb-3"></i>
+                            <h5 class="fw-bold mb-2">Yahaan .txt file drop karo</h5>
+                            <p class="text-muted mb-0 small">ya click karke choose karo</p>
+                            <p class="text-secondary mt-2 small" style="font-size: 0.8rem;">
+                                Sirf WhatsApp exported .txt files | Max 10 MB
+                            </p>
+                        </div>
+                        <!-- Hidden Input -->
+                        <input type="file" id="chat-file" name="file" accept=".txt"
+                            class="position-absolute top-0 start-0 w-100 h-100 opacity-0" style="cursor: pointer;">
+                    </div>
+
+                    <!-- File Info Display -->
+                    <div id="file-info"
+                        class="alert alert-success d-none align-items-center justify-content-between mb-4">
+                        <div class="d-flex align-items-center overflow-hidden">
+                            <i class="fas fa-file-alt me-2"></i>
+                            <span id="filename" class="text-truncate">filename.txt</span>
+                        </div>
+                        <button type="button" id="remove-file" class="btn-close ms-2" aria-label="Remove"></button>
+                    </div>
+
+                    <!-- Error Alert -->
+                    <div id="error-alert" class="alert alert-danger d-none mb-4" role="alert">
+                        <i class="fas fa-exclamation-circle me-2"></i> <span id="error-msg">Error message</span>
+                    </div>
+
+                    <!-- Chat Name Input -->
+                    <div class="mb-4">
+                        <label for="chat_name" class="form-label fw-bold">Chat Ka Naam <small
+                                class="text-muted fw-normal">(Optional)</small></label>
+                        <input type="text" class="form-control form-control-lg bg-light border-0" id="chat_name"
+                            name="chat_name" placeholder="e.g. Rahul ke saath">
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submit-btn" class="btn btn-primary-custom w-100 py-3 btn-lg shadow-sm"
+                        disabled>
+                        <span id="btn-text">Analyze Karo</span>
+                        <div id="loading-spinner" class="spinner-border spinner-border-sm text-light ms-2 d-none"
+                            role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </button>
+
+                </form>
+
+                <!-- Privacy Note -->
+                <div class="mt-4 text-center">
+                    <div
+                        class="d-inline-flex align-items-center justify-content-center bg-light rounded-pill px-3 py-2 text-muted small">
+                        <i class="fas fa-lock me-2 text-secondary"></i>
+                        File upload hote hi delete ho jaati hai - hum store nahi karte
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropZone = document.getElementById('upload-zone');
+        const fileInput = document.getElementById('chat-file');
+        const fileInfo = document.getElementById('file-info');
+        const filenameDisplay = document.getElementById('filename');
+        const removeFileBtn = document.getElementById('remove-file');
+        const submitBtn = document.getElementById('submit-btn');
+        const errorAlert = document.getElementById('error-alert');
+        const errorMsg = document.getElementById('error-msg');
+        const uploadForm = document.getElementById('upload-form');
+        const btnText = document.getElementById('btn-text');
+        const loadingSpinner = document.getElementById('loading-spinner');
+
+        // Drag events
+        ['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, preventDefaults, false);
+        });
+
+        function preventDefaults(e) {
+            e.preventDefault();
+            e.stopPropagation();
+        }
+
+        ['dragenter', 'dragover'].forEach(eventName => {
+            dropZone.addEventListener(eventName, highlight, false);
+        });
+
+        ['dragleave', 'drop'].forEach(eventName => {
+            dropZone.addEventListener(eventName, unhighlight, false);
+        });
+
+        function highlight(e) {
+            dropZone.classList.add('dragover');
+            dropZone.style.borderColor = 'var(--primary)';
+            dropZone.style.backgroundColor = 'var(--light-bg)';
+        }
+
+        function unhighlight(e) {
+            dropZone.classList.remove('dragover');
+            dropZone.style.borderColor = '';
+            dropZone.style.backgroundColor = '';
+        }
+
+        dropZone.addEventListener('drop', handleDrop, false);
+
+        function handleDrop(e) {
+            const dt = e.dataTransfer;
+            const files = dt.files;
+            handleFiles(files);
+        }
+
+        fileInput.addEventListener('change', function () {
+            handleFiles(this.files);
+        });
+
+        function handleFiles(files) {
+            if (files.length > 0) {
+                const file = files[0];
+                validateAndSetFile(file);
+            }
+        }
+
+        function validateAndSetFile(file) {
+            hideError();
+
+            // Validate Type
+            if (!file.name.toLowerCase().endsWith('.txt')) {
+                showError('Sirf .txt file allowed hai!');
+                resetForm();
+                return;
+            }
+
+            // Validate Size (10MB = 10 * 1024 * 1024 bytes)
+            if (file.size > 10 * 1024 * 1024) {
+                showError('File bahut badi hai! Max 10MB allowed hai.');
+                resetForm();
+                return;
+            }
+
+            // Valid File
+            fileInput.files = createFileList(file); // For drag-drop to update input
+            filenameDisplay.textContent = file.name;
+            dropZone.classList.add('d-none');
+            fileInfo.classList.remove('d-none');
+            fileInfo.classList.add('d-flex');
+            submitBtn.disabled = false;
+        }
+
+        // Helper to manually set files property
+        function createFileList(file) {
+            const dt = new DataTransfer();
+            dt.items.add(file);
+            return dt.files;
+        }
+
+        removeFileBtn.addEventListener('click', function () {
+            resetForm();
+        });
+
+        function resetForm() {
+            fileInput.value = '';
+            dropZone.classList.remove('d-none');
+            fileInfo.classList.add('d-none');
+            fileInfo.classList.remove('d-flex');
+            submitBtn.disabled = true;
+        }
+
+        function showError(msg) {
+            errorMsg.textContent = msg;
+            errorAlert.classList.remove('d-none');
+            // Auto hide
+            setTimeout(() => {
+                errorAlert.classList.add('d-none');
+            }, 5000);
+        }
+
+        function hideError() {
+            errorAlert.classList.add('d-none');
+        }
+
+        // Form Submit
+        uploadForm.addEventListener('submit', function (e) {
+            if (fileInput.files.length === 0) {
+                e.preventDefault();
+                showError('Please select a file first.');
+                return;
+            }
+
+            // Show loading state
+            submitBtn.disabled = true;
+            btnText.textContent = 'Analysing...';
+            loadingSpinner.classList.remove('d-none');
+            // Allow form submission to proceed
+        });
+    });
+</script>
+{% endblock %}

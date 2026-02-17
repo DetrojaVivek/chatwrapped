@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block title %}Invalid File - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 text-center">
+            <div class="mb-4">
+                <i class="bi bi-file-earmark-x text-warning display-1"></i>
+            </div>
+            <h2 class="fw-bold mb-3">Invalid File Format!</h2>
+            <p class="text-muted mb-5">
+                Aapne jo file upload ki hai woh sahi format mein nahi hai. <br>
+                Please ensure you export the chat correctly from WhatsApp.
+            </p>
+
+            <div class="card border-0 shadow-sm rounded-4 text-start mb-5">
+                <div class="card-header bg-white py-3">
+                    <h5 class="mb-0 fw-bold">How to Export WhatsApp Chat correctly:</h5>
+                </div>
+                <div class="card-body p-4">
+                    <ol class="mb-0">
+                        <li class="mb-3">Open the WhatsApp chat you want to analyze.</li>
+                        <li class="mb-3">Tap on the contact name at the top (or 3 dots on Android).</li>
+                        <li class="mb-3">Scroll down and select <strong>Export Chat</strong>.</li>
+                        <li class="mb-3">Select <strong>"Without Media"</strong> (Wait for it to prepare).</li>
+                        <li class="mb-0">Save the <code>.txt</code> file to your device and upload it here.</li>
+                    </ol>
+                </div>
+            </div>
+
+            <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-primary btn-lg px-5">
+                <i class="bi bi-upload me-2"></i> Try Again
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

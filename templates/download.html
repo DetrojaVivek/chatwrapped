@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+
+{% block title %}Download - {{ analysis.chat_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-12 text-center mb-5">
+        <h2 class="fw-bold text-success animate-fade-in">Your Wrapped is Ready! 🎉</h2>
+        <p class="text-muted">Download these images and share them on your Instagram Story.</p>
+    </div>
+
+    <div class="col-md-12">
+        <!-- Images Carousel / Grid -->
+        <div class="row g-4 justify-content-center">
+            {% for path in image_paths %}
+            <div class="col-md-4 col-sm-6 animate-fade-in" style="animation-delay: {{ loop.index0 * 0.1 }}s;">
+                <div class="card border-0 shadow-sm h-100">
+                    <img src="{{ url_for('static', filename='generated/' + path.split('/')[-1]) }}"
+                        class="card-img-top rounded" alt="Wrapped Slide {{ loop.index }}">
+                    <div class="card-body text-center">
+                        <a href="{{ url_for('static', filename='generated/' + path.split('/')[-1]) }}"
+                            download="chatwrapped_slide_{{ loop.index }}.png" class="btn btn-outline-custom btn-sm">
+                            <i class="fas fa-download me-2"></i> Download
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <div class="col-md-12 text-center mt-5 mb-5">
+        <h4 class="fw-bold mb-3">Loved it? Share with friends!</h4>
+        <div class="d-flex justify-content-center gap-3">
+            <a href="https://wa.me/?text=Check%20out%20my%20WhatsApp%20Chat%20Wrapped!%20Create%20yours%20at%20chatwrapped.in"
+                target="_blank" class="btn btn-success rounded-pill px-4">
+                <i class="fab fa-whatsapp me-2"></i> Share on WhatsApp
+            </a>
+            <a href="#" class="btn btn-outline-dark rounded-pill px-4">
+                <i class="fab fa-instagram me-2"></i> Share on Instagram
+            </a>
+        </div>
+
+        <div class="mt-5">
+            <a href="{{ url_for('upload.handle_upload') }}" class="btn btn-link text-muted text-decoration-none">
+                <i class="fas fa-redo me-1"></i> Analyze Another Chat
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Privacy Policy - ChatWrapped{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <h1 class="fw-bold mb-4">Privacy Policy</h1>
+            <p class="text-muted mb-5">Last Updated: {{ now.strftime('%B %d, %Y') if now else 'February 17, 2026' }}</p>
+
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5">
+                <h4 class="fw-bold mb-3">1. Data Collection</h4>
+                <p class="mb-4">
+                    We collect minimal data to provide our services: your email address, name (for account
+                    personalization),
+                    and aggregated analysis statistics (e.g., total messages, top words). We do <strong>not</strong> use
+                    your data for ad targeting.
+                </p>
+
+                <h4 class="fw-bold mb-3">2. Chat Files & Content</h4>
+                <p class="mb-4">
+                    <strong>We respect your privacy.</strong> We do <span class="text-danger fw-bold">NOT</span> store
+                    your actual chat content (messages, media, voice notes).
+                    Your uploaded chat file is processed purely in memory to generate statistics and is <strong>deleted
+                        immediately</strong> after processing.
+                    Calculated statistics (numbers, counts) are stored securely to allow you to view your history.
+                </p>
+
+                <h4 class="fw-bold mb-3">3. Payment Information</h4>
+                <p class="mb-4">
+                    Payments are processed securely via <strong>Razorpay</strong>. We do not store or even see your
+                    credit card details,
+                    UPI IDs, or banking information. Razorpay handles the entire transaction securely.
+                </p>
+
+                <h4 class="fw-bold mb-3">4. Data Sharing</h4>
+                <p class="mb-4">
+                    We never sell, trade, or rent your personal identification information to others. We do not share
+                    your data
+                    with third parties except where necessary to provide the service (e.g., payment processing).
+                </p>
+
+                <h4 class="fw-bold mb-3">5. Data Deletion</h4>
+                <p class="mb-4">
+                    You have full control over your data. You can delete your account and all associated data instantly
+                    from your
+                    <a href="{{ url_for('dashboard.settings') }}">Dashboard Settings</a>. Alternatively, you can email
+                    us at
+                    <a href="mailto:support@chatwrapped.in">support@chatwrapped.in</a> to request complete data
+                    deletion.
+                </p>
+
+                <h4 class="fw-bold mb-3">6. Cookies</h4>
+                <p class="mb-0">
+                    We use a single session cookie only to maintain your login state. We do not use third-party tracking
+                    cookies.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

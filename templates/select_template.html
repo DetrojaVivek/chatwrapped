@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block title %}Select Template - {{ analysis.chat_name }}{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col-md-10 text-center mb-5">
+        <h2 class="fw-bold">Choose a Style</h2>
+        <p class="text-muted">Select a theme for your chat report cards.</p>
+    </div>
+
+    <div class="col-md-12">
+        <form action="{{ url_for('image_gen.generate_images', analysis_id=analysis.id) }}" method="POST">
+            <div class="row g-4 justify-content-center">
+
+                <!-- Dark Theme -->
+                <div class="col-md-3">
+                    <label class="template-card h-100 d-block position-relative">
+                        <input type="radio" name="template" value="dark" class="d-none" checked>
+                        <div class="card bg-dark text-white border-0 shadow h-100">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-5">
+                                <i class="fas fa-moon fa-3x mb-3 text-success"></i>
+                                <h5 class="fw-bold">Dark Mode</h5>
+                                <p class="small text-white-50">Sleek & Modern</p>
+                            </div>
+                            <div
+                                class="selected-overlay position-absolute top-0 start-0 w-100 h-100 border border-4 border-success rounded d-none">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Light Theme -->
+                <div class="col-md-3">
+                    <label class="template-card h-100 d-block position-relative">
+                        <input type="radio" name="template" value="light" class="d-none">
+                        <div class="card bg-white text-dark border-0 shadow h-100">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-5">
+                                <i class="fas fa-sun fa-3x mb-3 text-warning"></i>
+                                <h5 class="fw-bold">Light Mode</h5>
+                                <p class="small text-muted">Clean & Minimal</p>
+                            </div>
+                            <div
+                                class="selected-overlay position-absolute top-0 start-0 w-100 h-100 border border-4 border-success rounded d-none">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Colorful Theme -->
+                <div class="col-md-3">
+                    <label class="template-card h-100 d-block position-relative">
+                        <input type="radio" name="template" value="colorful" class="d-none">
+                        <div class="card text-white border-0 shadow h-100"
+                            style="background: linear-gradient(135deg, #6C3483, #F39C12);">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-5">
+                                <i class="fas fa-palette fa-3x mb-3"></i>
+                                <h5 class="fw-bold">Colorful</h5>
+                                <p class="small text-white-50">Vibrant & Fun</p>
+                            </div>
+                            <div
+                                class="selected-overlay position-absolute top-0 start-0 w-100 h-100 border border-4 border-success rounded d-none">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+                <!-- Minimal Theme -->
+                <div class="col-md-3">
+                    <label class="template-card h-100 d-block position-relative">
+                        <input type="radio" name="template" value="minimal" class="d-none">
+                        <div class="card bg-light text-dark border-0 shadow h-100">
+                            <div class="card-body d-flex flex-column align-items-center justify-content-center py-5">
+                                <i class="fas fa-feather-alt fa-3x mb-3 text-info"></i>
+                                <h5 class="fw-bold">Minimal</h5>
+                                <p class="small text-muted">Simple & Elegant</p>
+                            </div>
+                            <div
+                                class="selected-overlay position-absolute top-0 start-0 w-100 h-100 border border-4 border-success rounded d-none">
+                            </div>
+                        </div>
+                    </label>
+                </div>
+
+            </div>
+
+            <div class="text-center mt-5">
+                <button type="submit" class="btn btn-primary-custom btn-lg px-5 py-3 shadow-lg">
+                    Generate Images <i class="fas fa-arrow-right ms-2"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.querySelectorAll('input[name="template"]').forEach(input => {
+        input.addEventListener('change', function () {
+            document.querySelectorAll('.selected-overlay').forEach(el => el.classList.add('d-none'));
+            if (this.checked) {
+                this.closest('.template-card').querySelector('.selected-overlay').classList.remove('d-none');
+            }
+        });
+    });
+    // Trigger change on load to select default
+    document.querySelector('input[name="template"]:checked').dispatchEvent(new Event('change'));
+</script>
+
+<style>
+    .template-card {
+        cursor: pointer;
+        transition: transform 0.2s;
+    }
+
+    .template-card:hover {
+        transform: translateY(-5px);
+    }
+</style>
+{% endblock %}

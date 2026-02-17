@@ -1,0 +1,180 @@
+{% extends 'base.html' %}
+
+{% block title %}Results - {{ analysis.chat_name }}{% endblock %}
+
+{% block content %}
+<div class="row g-4 justify-content-center">
+
+    <!-- Card 1: Overview -->
+    <div class="col-md-8 col-lg-6">
+        <div class="results-card text-center h-100 animate-fade-in" style="animation-delay: 0.1s;">
+            <i class="fas fa-comments text-success fa-3x mb-3"></i>
+            <h3>{{ stats.total_messages }}</h3>
+            <div class="stat-label">Total Messages</div>
+            <div class="mt-3">
+                <h5 class="fw-bold">{{ stats.person1_name }} & {{ stats.person2_name }}</h5>
+                <p class="text-muted small mb-0">{{ stats.date_start }} - {{ stats.date_end }} ({{ stats.total_days }}
+                    days)</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 2: Texting Champion -->
+    <div class="col-md-8 col-lg-6">
+        <div class="results-card h-100 animate-fade-in" style="animation-delay: 0.2s;">
+            <div class="text-center mb-3">
+                <i class="fas fa-trophy text-warning fa-2x mb-2"></i>
+                <h5 class="fw-bold">Who Texts More?</h5>
+            </div>
+
+            <div class="mb-3">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold small">{{ stats.person1_name }}</span>
+                    <span class="small">{{ stats.person1_percent }}%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar progress-bar-custom" role="progressbar"
+                        style="width: {{ stats.person1_percent }}%"></div>
+                </div>
+            </div>
+
+            <div class="mb-2">
+                <div class="d-flex justify-content-between mb-1">
+                    <span class="fw-bold small">{{ stats.person2_name }}</span>
+                    <span class="small">{{ stats.person2_percent }}%</span>
+                </div>
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: {{ stats.person2_percent }}%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 3: Peak Hours Chart -->
+    <div class="col-md-12">
+        <div class="results-card animate-fade-in" style="animation-delay: 0.3s;">
+            <div class="text-center mb-4">
+                <i class="fas fa-chart-bar text-primary fa-2x mb-2"></i>
+                <h5 class="fw-bold">Peak Chatting Hours</h5>
+            </div>
+            <div style="height: 300px;">
+                <canvas id="hourlyChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 4: Top Emojis -->
+    <div class="col-md-6">
+        <div class="results-card h-100 text-center animate-fade-in" style="animation-delay: 0.4s;">
+            <i class="fas fa-smile text-warning fa-2x mb-3"></i>
+            <h5 class="fw-bold mb-4">Top Emojis Used</h5>
+            <div class="d-flex justify-content-center flex-wrap gap-4">
+                {% for item in stats.top5_emojis %}
+                <div class="text-center">
+                    <div style="font-size: 2.5rem;">{{ item.emoji }}</div>
+                    <div class="small text-muted">x{{ item.count }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <!-- Card 5: Fun Facts Grid -->
+    <div class="col-md-6">
+        <div class="results-card h-100 animate-fade-in" style="animation-delay: 0.5s;">
+            <div class="text-center mb-4">
+                <i class="fas fa-bolt text-danger fa-2x mb-2"></i>
+                <h5 class="fw-bold">Fun Facts</h5>
+            </div>
+            <div class="row g-3">
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded text-center">
+                        <small class="d-block text-muted mb-1">Sorry Count</small>
+                        <strong class="h5">{{ stats.sorry_p1 + stats.sorry_p2 }}</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded text-center">
+                        <small class="d-block text-muted mb-1">Late Night Msgs</small>
+                        <strong class="h5">{{ stats.late_night_msgs }}</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded text-center">
+                        <small class="d-block text-muted mb-1">Avg Response</small>
+                        <strong class="h5">{{ stats.avg_response_min }} min</strong>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="p-3 bg-light rounded text-center">
+                        <small class="d-block text-muted mb-1">Longest Streak</small>
+                        <strong class="h5">{{ stats.longest_streak }} days</strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bottom CTA -->
+    <div class="col-12 text-center mt-4 mb-5 animate-fade-in" style="animation-delay: 0.6s;">
+        <h3 class="fw-bold mb-3">Ready to Share?</h3>
+        <p class="text-muted mb-4">Create beautiful Instagram-ready images of these stats.</p>
+        <a href="{{ url_for('image_gen.select_template', analysis_id=analysis.id) }}"
+            class="btn btn-primary-custom btn-lg px-5 py-3 shadow-lg">
+            <i class="fas fa-images me-2"></i> Beautiful Images Banao
+        </a>
+    </div>
+
+</div>
+
+<!-- Chart Script -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const ctx = document.getElementById('hourlyChart').getContext('2d');
+        const hourlyData = {{ stats.hourly_data | tojson
+    }};
+
+    // Prepare data for all 24 hours
+    const labels = Array.from({ length: 24 }, (_, i) => i + ':00');
+    const data = Array.from({ length: 24 }, (_, i) => hourlyData[i] || 0);
+
+    new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Messages',
+                data: data,
+                backgroundColor: 'rgba(37, 211, 102, 0.7)',
+                borderColor: '#25D366',
+                borderWidth: 1,
+                borderRadius: 4
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    grid: {
+                        color: 'rgba(0, 0, 0, 0.05)'
+                    }
+                },
+                x: {
+                    grid: {
+                        display: false
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: false
+                }
+            }
+        }
+    });
+    });
+</script>
+{% endblock %}
