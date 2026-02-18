@@ -12,3 +12,4 @@ werkzeug==3.0.3
 gunicorn==21.2.0
 requests==2.31.0
 emoji==2.14.0
+setuptools
