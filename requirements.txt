@@ -6,7 +6,7 @@ flask-mail==0.10.0
 flask-wtf==1.2.1
 python-dotenv==1.0.1
 pillow==11.1.0
-razorpay==1.4.1
+razorpay==2.0.0
 sqlalchemy==2.0.25
 werkzeug==3.0.3
 gunicorn==21.2.0
